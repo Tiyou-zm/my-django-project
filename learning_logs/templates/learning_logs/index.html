@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习笔记</title>
+    <style>
+        /* 现代化Apple风格设计系统 */
+        :root {
+            --primary-color: #007AFF;
+            --primary-hover: #0056CC;
+            --secondary-color: #5E5CE6;
+            --success-color: #34C759;
+            --warning-color: #FF9500;
+            --danger-color: #FF3B30;
+            --text-primary: #1D1D1F;
+            --text-secondary: #86868B;
+            --text-tertiary: #AEAEB2;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F5F5F7;
+            --bg-tertiary: #FAFAFA;
+            --border-color: #D2D2D7;
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 毛玻璃效果背景 */
+        .page-background {
+            min-height: 100vh;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-heavy);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* 头部设计 - 现代化hero区域 */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: var(--spacing-2xl) var(--spacing-xl);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) rotate(180deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 0 0 var(--spacing-md) 0;
+            letter-spacing: -0.03em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #ffffff, rgba(255,255,255,0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin: 0 0 var(--spacing-xl) 0;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-cta:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            padding: var(--spacing-2xl);
+        }
+
+        /* 统计卡片 */
+        .stats-section {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .stats-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .stat-card {
+            background: var(--bg-primary);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 最近笔记区域 */
+        .recent-section {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .recent-grid {
+            display: grid;
+            gap: var(--spacing-lg);
+        }
+
+        .recent-card {
+            background: var(--bg-primary);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .recent-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .recent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .recent-topic {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .recent-date {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .recent-content {
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* 功能特性区域 */
+        .features-section {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-xl);
+        }
+
+        .feature-card {
+            background: var(--bg-primary);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-medium);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-lg);
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 var(--spacing-md) 0;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        /* 消息提示 */
+        .messages {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .message {
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-md);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .message.success {
+            background: linear-gradient(135deg, rgba(52, 199, 89, 0.1), rgba(52, 199, 89, 0.05));
+            border: 1px solid rgba(52, 199, 89, 0.2);
+            color: var(--success-color);
+        }
+
+        .message.error {
+            background: linear-gradient(135deg, rgba(255, 59, 48, 0.1), rgba(255, 59, 48, 0.05));
+            border: 1px solid rgba(255, 59, 48, 0.2);
+            color: var(--danger-color);
+        }
+
+        .message.warning {
+            background: linear-gradient(135deg, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+            border: 1px solid rgba(255, 149, 0, 0.2);
+            color: var(--warning-color);
+        }
+
+        .message.info {
+            background: linear-gradient(135deg, rgba(0, 122, 255, 0.1), rgba(0, 122, 255, 0.05));
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            color: var(--primary-color);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .page-background {
+                padding: var(--spacing-lg) var(--spacing-sm);
+            }
+
+            .container {
+                border-radius: var(--radius-lg);
+            }
+
+            .hero {
+                padding: var(--spacing-xl) var(--spacing-lg);
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                padding: var(--spacing-xl);
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: var(--spacing-md);
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .recent-grid {
+                gap: var(--spacing-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: var(--spacing-lg);
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .main-content {
+                padding: var(--spacing-lg);
+            }
+
+            .stat-card,
+            .recent-card,
+            .feature-card {
+                padding: var(--spacing-lg);
+            }
+        }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: var(--radius-sm);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+
+        /* 动画效果 */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card,
+        .recent-card,
+        .feature-card {
+            animation: slideInUp 0.6s ease forwards;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="page-background">
+        <div class="container">
+            <!-- Hero区域 -->
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">AI学习笔记</h1>
+                    <p class="hero-subtitle">让AI成为您的专属学习导师，记录每一次灵感，追踪每一个进步</p>
+                    <a href="{% url 'learning_logs:topics' %}" class="hero-cta">
+                        <span>🚀</span>
+                        开始学习之旅
+                    </a>
+                </div>
+            </section>
+
+            <!-- 主内容区域 -->
+            <main class="main-content">
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        <span>{{ message }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- 学习统计 -->
+                <section class="stats-section">
+                    <h2 class="stats-title">📊 学习数据概览</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">{{ total_topics }}</div>
+                            <div class="stat-label">学习主题</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">{{ total_entries }}</div>
+                            <div class="stat-label">笔记条目</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">{{ recent_entries|length }}</div>
+                            <div class="stat-label">最近笔记</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 最近笔记 -->
+                {% if recent_entries %}
+                <section class="recent-section">
+                    <h2 class="section-title">📝 最近笔记</h2>
+                    <div class="recent-grid">
+                        {% for entry in recent_entries %}
+                        <a href="{% url 'learning_logs:topic' entry.topic.id %}" class="recent-card">
+                            <div class="recent-header">
+                                <h3 class="recent-topic">{{ entry.topic }}</h3>
+                                <span class="recent-date">{{ entry.date_added|date:'m月d日 H:i' }}</span>
+                            </div>
+                            <p class="recent-content">{{ entry.text|truncatechars:120 }}</p>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </section>
+                {% endif %}
+
+                <!-- 功能特性 -->
+                <section class="features-section">
+                    <h2 class="section-title">✨ 核心功能</h2>
+                    <div class="features-grid">
+                        <a href="{% url 'learning_logs:topics' %}" class="feature-card">
+                            <span class="feature-icon">🤖</span>
+                            <h3 class="feature-title">AI智能分析</h3>
+                            <p class="feature-description">DeepSeek AI为您提供专业的学习分析和内容优化建议，让学习更高效</p>
+                        </a>
+                        <a href="{% url 'learning_logs:topics' %}" class="feature-card">
+                            <span class="feature-icon">📚</span>
+                            <h3 class="feature-title">主题化整理</h3>
+                            <p class="feature-description">按主题分类整理学习内容，支持无限层级和灵活的组织结构</p>
+                        </a>
+                        <a href="{% url 'learning_logs:progress' %}" class="feature-card">
+                            <span class="feature-icon">📊</span>
+                            <h3 class="feature-title">进度追踪</h3>
+                            <p class="feature-description">可视化学习进度，统计数据一目了然，激励持续学习</p>
+                        </a>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e8e8ed;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #007aff;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #86868b;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .recent-entries {
+            margin: 3rem 0;
+            text-align: left;
+        }
+
+        .recent-entries h2 {
+            color: #1d1d1f;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .recent-entry-item {
+            background-color: #f5f5f7;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #007aff;
+        }
+
+        .recent-entry-item h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.125rem;
+        }
+
+        .recent-entry-item h4 a {
+            color: #1d1d1f;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .recent-entry-item h4 a:hover {
+            color: #007aff;
+        }
+
+        .recent-entry-item p {
+            color: #424245;
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+
+        .recent-entry-item small {
+            color: #86868b;
+            font-size: 0.75rem;
+        }
+
+        .messages {
+            margin: 2rem 0;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .message.warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
+        .message.info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .feature {
+            background-color: #f5f5f7;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.2s ease;
+            height: 100%;
+        }
+
+        .feature:hover {
+            background-color: #e8e8ed;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
+
+        .feature-link:hover .feature {
+            background-color: #007aff;
+            color: #ffffff;
+        }
+
+        .feature-link:hover .feature h3,
+        .feature-link:hover .feature p {
+            color: #ffffff;
+        }
+
+        .feature h3 {
+            font-size: 1.25rem;
+            color: #1d1d1f;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .feature p {
+            color: #86868b;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>学习笔记</h1>
+            <p class="subtitle">记录您的学习旅程</p>
+        </header>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <main class="content">
+            <p class="description">
+                欢迎来到您的个人学习笔记空间。在这里，您可以记录学习心得、整理知识点，
+                追踪学习进度，让学习变得更有条理和乐趣。
+            </p>
+            <a href="{% url 'learning_logs:topics' %}" class="cta-button">查看主题</a>
+
+            <!-- 进度追踪统计 -->
+            <div class="stats-section">
+                <h2>学习进度概览</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">{{ total_topics }}</div>
+                        <div class="stat-label">学习主题</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{{ total_entries }}</div>
+                        <div class="stat-label">笔记条目</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{{ recent_entries|length }}</div>
+                        <div class="stat-label">最近笔记</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 最近笔记 -->
+            {% if recent_entries %}
+            <div class="recent-entries">
+                <h2>最近笔记</h2>
+                {% for entry in recent_entries %}
+                <div class="recent-entry-item">
+                    <h4><a href="{% url 'learning_logs:topic' entry.topic.id %}">{{ entry.topic }}</a></h4>
+                    <p>{{ entry.text|truncatechars:100 }}</p>
+                    <small>{{ entry.date_added|date:'M j, Y H:i' }}</small>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="features">
+                <a href="{% url 'learning_logs:topics' %}" class="feature-link">
+                    <div class="feature">
+                        <h3>📝 记录笔记</h3>
+                        <p>随时记录您的学习心得和灵感，支持AI智能分析和内容优化</p>
+                    </div>
+                </a>
+                <a href="{% url 'learning_logs:topics' %}" class="feature-link">
+                    <div class="feature">
+                        <h3>📚 整理主题</h3>
+                        <p>按主题分类整理您的学习内容，支持编辑和删除操作</p>
+                    </div>
+                </a>
+                <a href="{% url 'learning_logs:progress' %}" class="feature-link">
+                    <div class="feature">
+                        <h3>📊 追踪进度</h3>
+                        <p>查看学习统计数据，掌握学习进度和完成情况</p>
+                    </div>
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

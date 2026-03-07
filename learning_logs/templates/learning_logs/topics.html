@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习主题</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid #d2d2d7;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin: 0;
+        }
+
+        .topics-list {
+            padding: 2rem 0;
+        }
+
+        .topic-item {
+            background-color: #f5f5f7;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .topic-item:hover {
+            background-color: #e8e8ed;
+            transform: translateY(-1px);
+        }
+
+        .topic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-link {
+            text-decoration: none;
+            color: #1d1d1f;
+            font-size: 1.25rem;
+            font-weight: 600;
+            flex-grow: 1;
+        }
+
+        .topic-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-link {
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .action-link:not(.delete) {
+            background-color: #007aff;
+            color: #ffffff;
+        }
+
+        .action-link:not(.delete):hover {
+            background-color: #0056cc;
+        }
+
+        .action-link.delete {
+            background-color: #ff3b30;
+            color: #ffffff;
+        }
+
+        .action-link.delete:hover {
+            background-color: #d63027;
+        }
+
+        .topic-date {
+            color: #86868b;
+            font-size: 0.875rem;
+            margin: 0.25rem 0;
+        }
+
+        .topic-stats {
+            color: #007aff;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin: 0.25rem 0 0 0;
+        }
+
+        .add-topic-btn {
+            display: inline-block;
+            background-color: #007aff;
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 122, 255, 0.2);
+        }
+
+        .add-topic-btn:hover {
+            background-color: #0056cc;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 122, 255, 0.3);
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #007aff;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>学习主题</h1>
+        </header>
+
+        <main class="topics-list">
+            <a href="{% url 'learning_logs:new_topic' %}" class="add-topic-btn">添加新主题</a>
+
+            {% for topic in topics %}
+            <div class="topic-item">
+                <div class="topic-header">
+                    <a href="{% url 'learning_logs:topic' topic.id %}" class="topic-link">{{ topic }}</a>
+                    <div class="topic-actions">
+                        <a href="{% url 'learning_logs:edit_topic' topic.id %}" class="action-link">编辑</a>
+                        <a href="{% url 'learning_logs:delete_topic' topic.id %}" class="action-link delete">删除</a>
+                    </div>
+                </div>
+                <p class="topic-date">添加时间: {{ topic.date_added|date:'M j, Y H:i' }}</p>
+                <p class="topic-stats">包含 {{ topic.entry_count }} 个笔记条目</p>
+            </div>
+            {% empty %}
+            <p>还没有主题。</p>
+            {% endfor %}
+
+            <a href="{% url 'learning_logs:index' %}" class="back-link">← 返回主页</a>
+        </main>
+    </div>
+</body>
+</html>

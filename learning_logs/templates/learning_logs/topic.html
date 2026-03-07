@@ -1,0 +1,1481 @@
+{% load markdown_extras %}
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ topic }}</title>
+    <style>
+        /* 现代化Apple风格设计系统 */
+        :root {
+            --primary-color: #007AFF;
+            --primary-hover: #0056CC;
+            --secondary-color: #5E5CE6;
+            --success-color: #34C759;
+            --warning-color: #FF9500;
+            --danger-color: #FF3B30;
+            --text-primary: #1D1D1F;
+            --text-secondary: #86868B;
+            --text-tertiary: #AEAEB2;
+            --bg-primary: #F8F9FA;
+            --bg-secondary: #E9ECEF;
+            --bg-tertiary: #DEE2E6;
+            --bg-dark: #343A40;
+            --border-color: #D2D2D7;
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 毛玻璃效果背景 */
+        .page-background {
+            min-height: 100vh;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(248, 249, 250, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-heavy);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* 头部设计 - 更现代的布局 */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: var(--spacing-2xl) var(--spacing-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) rotate(180deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            margin: 0 0 var(--spacing-sm) 0;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .topic-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            opacity: 0.9;
+        }
+
+        .topic-date {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .topic-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            padding: var(--spacing-2xl);
+        }
+
+        /* 工具栏 - 现代化设计 */
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        /* 现代化按钮设计 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);
+        }
+
+        .btn-success:hover {
+            background: #28A745;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 199, 89, 0.4);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: #D63027;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 59, 48, 0.4);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .btn-outline-primary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            box-shadow: none;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+        }
+
+        .btn-outline-danger {
+            background: transparent;
+            color: var(--danger-color);
+            border: 2px solid var(--danger-color);
+            box-shadow: none;
+        }
+
+        .btn-outline-danger:hover {
+            background: var(--danger-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 59, 48, 0.4);
+        }
+
+        .btn-sm {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: 0.85rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .btn-lg {
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-size: 1.05rem;
+            border-radius: var(--radius-lg);
+        }
+
+        /* AI分析紧凑样式 */
+        .ai-analysis-compact {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .ai-header-compact {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .ai-avatar-small {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .ai-title-compact {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .ai-subtitle-compact {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin: 0.25rem 0 0 0;
+        }
+        .tab-container {
+            margin-top: var(--spacing-lg);
+        }
+
+        .tab-buttons {
+            display: flex;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .tab-btn.active {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-light);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--text-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+        .entry-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .entry-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .entry-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .entry-card:hover::before {
+            opacity: 1;
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .entry-actions {
+            display: flex;
+            gap: var(--spacing-xs);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .entry-card:hover .entry-actions {
+            opacity: 1;
+        }
+
+        .entry-content {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .entry-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .entry-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .entry-date {
+            font-weight: 500;
+        }
+
+        .entry-stats {
+            display: flex;
+            gap: var(--spacing-md);
+            font-size: 0.85rem;
+        }
+
+        /* AI分析区域 - 现代化设计 */
+        .ai-analysis {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-top: var(--spacing-lg);
+            border: 1px solid rgba(0, 122, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-analysis::before {
+            content: '🤖';
+            position: absolute;
+            top: var(--spacing-lg);
+            right: var(--spacing-lg);
+            font-size: 2rem;
+            opacity: 0.1;
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .ai-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .ai-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .analysis-content {
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Markdown美化样式 - 现代化设计 */
+        .analysis-content h1,
+        .analysis-content h2,
+        .analysis-content h3,
+        .analysis-content h4,
+        .analysis-content h5,
+        .analysis-content h6 {
+            color: var(--text-primary);
+            font-weight: 700;
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+
+        .analysis-content h1 {
+            font-size: 1.75rem;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: var(--spacing-sm);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .analysis-content h2 {
+            font-size: 1.4rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: var(--spacing-xs);
+            color: var(--primary-color);
+        }
+
+        .analysis-content h3 {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+        }
+
+        .analysis-content h4 {
+            font-size: 1.1rem;
+            color: var(--success-color);
+        }
+
+        .analysis-content p {
+            margin-bottom: var(--spacing-lg);
+            text-align: justify;
+            hyphens: auto;
+            word-break: break-word;
+        }
+
+        .analysis-content strong {
+            color: var(--text-primary);
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .analysis-content em {
+            color: var(--warning-color);
+            font-style: italic;
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .analysis-content ul,
+        .analysis-content ol {
+            margin: var(--spacing-lg) 0;
+            padding-left: var(--spacing-xl);
+        }
+
+        .analysis-content li {
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .analysis-content li::marker {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .analysis-content table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-lg) 0;
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--border-color);
+        }
+
+        .analysis-content th,
+        .analysis-content td {
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .analysis-content th {
+            background: linear-gradient(135deg, var(--bg-secondary), #e8e8ed);
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .analysis-content tr:nth-child(even) {
+            background: var(--bg-tertiary);
+        }
+
+        .analysis-content tr:hover {
+            background: rgba(0, 122, 255, 0.05);
+        }
+
+        .analysis-content blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding: var(--spacing-md) var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            background: linear-gradient(135deg, rgba(0, 122, 255, 0.05), rgba(94, 92, 230, 0.05));
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            font-style: italic;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .analysis-content blockquote::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 3rem;
+            color: var(--primary-color);
+            opacity: 0.2;
+            font-family: serif;
+        }
+
+        .analysis-content code {
+            background: linear-gradient(135deg, #f6f8fa, #e8e8ed);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+            font-size: 0.9em;
+            color: #d73a49;
+            border: 1px solid var(--border-color);
+        }
+
+        .analysis-content pre {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin: var(--spacing-lg) 0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .analysis-content pre code {
+            background: transparent;
+            padding: 0;
+            color: var(--text-primary);
+            border: none;
+        }
+
+        .analysis-content hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            margin: var(--spacing-2xl) 0;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: var(--spacing-2xl);
+            color: var(--text-tertiary);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-lg);
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-secondary);
+        }
+
+        .empty-description {
+            font-size: 1rem;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        /* 返回链接 */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+            margin-top: var(--spacing-lg);
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+            background: rgba(0, 122, 255, 0.1);
+            transform: translateX(-4px);
+        }
+
+        /* Loading状态 - 现代化设计 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .loading-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-xl);
+            text-align: center;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(0, 122, 255, 0.1);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto var(--spacing-lg);
+        }
+
+        .loading-title {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .loading-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .loading-progress {
+            width: 100%;
+            height: 4px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-top: var(--spacing-md);
+        }
+
+        .loading-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--radius-sm);
+            animation: progress 2s ease-in-out infinite;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .page-background {
+                padding: var(--spacing-lg) var(--spacing-sm);
+            }
+
+            .container {
+                border-radius: var(--radius-lg);
+            }
+
+            .header {
+                padding: var(--spacing-xl) var(--spacing-lg);
+            }
+
+            h1 {
+                font-size: 2.25rem;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: stretch;
+            }
+
+            .toolbar-left,
+            .toolbar-right {
+                justify-content: center;
+            }
+
+            .entry-header {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+                align-items: flex-start;
+            }
+
+            .entry-actions {
+                opacity: 1;
+                justify-content: flex-start;
+            }
+
+            .entry-card {
+                padding: var(--spacing-lg);
+            }
+
+            .ai-analysis {
+                padding: var(--spacing-lg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-lg);
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .main-content {
+                padding: var(--spacing-lg);
+            }
+
+            .entry-card,
+            .ai-analysis {
+                padding: var(--spacing-md);
+            }
+
+            .btn {
+                padding: var(--spacing-sm) var(--spacing-md);
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: var(--radius-sm);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-background">
+        <div class="container">
+            <!-- 头部区域 -->
+            <header class="header">
+                <div class="header-content">
+                    <h1>{{ topic }}</h1>
+                    <div class="topic-meta">
+                        <span class="topic-date">创建于 {{ topic.date_added|date:'Y年m月d日 H:i' }}</span>
+                        <span class="topic-badge">📚 学习主题</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 主内容区域 -->
+            <main class="main-content">
+                <!-- 工具栏 -->
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <a href="{% url 'learning_logs:new_entry' topic.id %}" class="btn btn-primary btn-lg">
+                            <span>+</span>
+                            添加笔记
+                        </a>
+                    </div>
+                    <div class="toolbar-right">
+                        <a href="{% url 'learning_logs:edit_topic' topic.id %}" class="btn btn-outline-primary">
+                            <span>✏️</span>
+                            编辑主题
+                        </a>
+                        <a href="{% url 'learning_logs:delete_topic' topic.id %}" class="btn btn-outline-danger">
+                            <span>🗑️</span>
+                            删除主题
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 笔记条目列表 -->
+                {% for entry in entries %}
+                <article class="entry-card">
+                    <header class="entry-header">
+                        <div class="entry-actions">
+                            <a href="{% url 'learning_logs:edit_entry' entry.id %}" class="btn btn-ghost btn-sm" title="编辑笔记">
+                                ✏️
+                            </a>
+                            <a href="{% url 'learning_logs:delete_entry' entry.id %}" class="btn btn-danger btn-sm" title="删除笔记">
+                                🗑️
+                            </a>
+                            <form method="post" action="{% url 'learning_logs:analyze_entry' entry.id %}" style="display: inline;" onsubmit="showLoading(this)">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-sm" id="analyze-btn-{{ entry.id }}" title="AI深度分析">
+                                    🤖 分析
+                                </button>
+                            </form>
+                            <form method="post" action="{% url 'learning_logs:optimize_entry' entry.id %}" style="display: inline;" onsubmit="showLoading(this)">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm" id="optimize-btn-{{ entry.id }}" title="AI智能优化">
+                                    ✨ 优化
+                                </button>
+                            </form>
+                        </div>
+                    </header>
+
+                    <div class="entry-content">
+                        {% if entry.ai_analysis %}
+                        <!-- Tab切换 -->
+                        <div class="tab-container">
+                            <div class="tab-buttons">
+                                <button class="tab-btn active" onclick="switchTab(this, 'original-{{ entry.id }}')">📝 原始笔记</button>
+                                <button class="tab-btn" onclick="switchTab(this, 'ai-{{ entry.id }}')">🤖 AI分析</button>
+                            </div>
+                            <div id="original-{{ entry.id }}" class="tab-content active">
+                                <div class="entry-text">{{ entry.text|linebreaks }}</div>
+                            </div>
+                            <div id="ai-{{ entry.id }}" class="tab-content">
+                                <div class="ai-analysis-compact">
+                                    <div class="ai-header-compact">
+                                        <div class="ai-avatar-small">🤖</div>
+                                        <div>
+                                            <h4 class="ai-title-compact">AI学习导师分析报告</h4>
+                                            <p class="ai-subtitle-compact">基于DeepSeek AI的智能分析</p>
+                                        </div>
+                                    </div>
+                                    <div class="analysis-content">{{ entry.ai_analysis|markdownify }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="entry-text">{{ entry.text|linebreaks }}</div>
+                        {% endif %}
+                    </div>
+                </article>
+                {% empty %}
+                <div class="empty-state">
+                    <div class="empty-icon">📝</div>
+                    <h3 class="empty-title">还没有笔记内容</h3>
+                    <p class="empty-description">点击上方"添加笔记"按钮，开始记录你的学习心得吧！</p>
+                    <a href="{% url 'learning_logs:new_entry' topic.id %}" class="btn btn-primary">
+                        <span>+</span>
+                        创建第一条笔记
+                    </a>
+                </div>
+                {% endfor %}
+
+                <!-- 返回链接 -->
+                <a href="{% url 'learning_logs:topics' %}" class="back-link">
+                    ← 返回主题列表
+                </a>
+            </main>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-card">
+            <div class="loading-spinner"></div>
+            <h3 class="loading-title">AI处理中...</h3>
+            <p class="loading-subtitle">正在调用DeepSeek AI进行智能分析</p>
+            <div class="loading-progress">
+                <div class="loading-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLoading(form) {
+            // 显示loading overlay
+            document.getElementById('loading-overlay').style.display = 'flex';
+
+            // 禁用所有按钮
+            const buttons = form.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.disabled = true;
+                button.innerHTML = '处理中...';
+                button.style.opacity = '0.6';
+            });
+
+            // 提交表单
+            setTimeout(() => {
+                form.submit();
+            }, 100);
+        }
+
+        function switchTab(clickedBtn, tabId) {
+            // 获取父容器
+            const tabContainer = clickedBtn.closest('.tab-container');
+            
+            // 移除所有active类
+            tabContainer.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            tabContainer.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // 添加active类到点击的按钮和对应的内容
+            clickedBtn.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // 页面加载完成后检查是否有消息，如果有则隐藏loading
+        document.addEventListener('DOMContentLoaded', function() {
+            const messages = document.querySelector('.messages');
+            if (messages) {
+                document.getElementById('loading-overlay').style.display = 'none';
+            }
+
+            // 添加一些交互效果
+            const entryCards = document.querySelectorAll('.entry-card');
+            entryCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animation = 'slideInUp 0.6s ease forwards';
+            });
+        });
+
+        // 添加slideInUp动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 添加一些微交互
+        document.addEventListener('DOMContentLoaded', function() {
+            // 按钮悬停音效（如果支持的话）
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.02)';
+                });
+
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+        .no-entries {
+            text-align: center;
+            color: #86868b;
+            font-style: italic;
+            padding: 2rem;
+        }
+
+        .topic-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .edit-btn {
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            border: 1px solid #d2d2d7;
+        }
+
+        .edit-btn:hover {
+            background-color: #e8e8ed;
+        }
+
+        .delete-btn {
+            background-color: #ff3b30;
+            color: #ffffff;
+            border: 1px solid #ff3b30;
+        }
+
+        .delete-btn:hover {
+            background-color: #d63027;
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+        }
+
+        .entry-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-link {
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .action-link:not(.delete):not(.ai-btn):not(.optimize-btn) {
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            border: 1px solid #d2d2d7;
+        }
+
+        .action-link:not(.delete):not(.ai-btn):not(.optimize-btn):hover {
+            background-color: #e8e8ed;
+        }
+
+        .action-link.delete {
+            background-color: #ff3b30;
+            color: #ffffff;
+            border: 1px solid #ff3b30;
+        }
+
+        .action-link.delete:hover {
+            background-color: #d63027;
+        }
+
+        .action-link.ai-btn {
+            background-color: #007aff;
+            color: #ffffff;
+            border: 1px solid #007aff;
+        }
+
+        .action-link.ai-btn:hover {
+            background-color: #0056cc;
+        }
+
+        .action-link.optimize-btn {
+            background-color: #34c759;
+            color: #ffffff;
+            border: 1px solid #34c759;
+        }
+
+        .action-link.optimize-btn:hover {
+            background-color: #28a745;
+        }
+
+        .ai-analysis {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f0f9ff;
+            border-radius: 8px;
+            border-left: 4px solid #007aff;
+        }
+
+        .ai-analysis h4 {
+            margin: 0 0 0.5rem 0;
+            color: #007aff;
+            font-size: 1rem;
+        }
+
+        .analysis-content {
+            color: #424245;
+            line-height: 1.6;
+            font-size: 0.875rem;
+        }
+
+        /* Markdown美化样式 */
+        .analysis-content h1,
+        .analysis-content h2,
+        .analysis-content h3,
+        .analysis-content h4,
+        .analysis-content h5,
+        .analysis-content h6 {
+            color: #1d1d1f;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .analysis-content h1 { font-size: 1.5rem; border-bottom: 2px solid #007aff; padding-bottom: 0.5rem; }
+        .analysis-content h2 { font-size: 1.25rem; border-bottom: 1px solid #d2d2d7; padding-bottom: 0.25rem; }
+        .analysis-content h3 { font-size: 1.1rem; color: #007aff; }
+        .analysis-content h4 { font-size: 1rem; color: #28a745; }
+
+        .analysis-content p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .analysis-content strong {
+            color: #1d1d1f;
+            font-weight: 700;
+            background-color: #fff3cd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+
+        .analysis-content em {
+            color: #ff6b35;
+            font-style: italic;
+            background-color: #ffeaa7;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+
+        .analysis-content ul,
+        .analysis-content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        .analysis-content li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .analysis-content li::marker {
+            color: #007aff;
+        }
+
+        .analysis-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .analysis-content th,
+        .analysis-content td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #d2d2d7;
+        }
+
+        .analysis-content th {
+            background-color: #f5f5f7;
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+
+        .analysis-content tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        .analysis-content blockquote {
+            border-left: 4px solid #007aff;
+            padding-left: 1rem;
+            margin: 1rem 0;
+            background-color: #f0f9ff;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #424245;
+        }
+
+        .analysis-content code {
+            background-color: #f6f8fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.85em;
+            color: #d73a49;
+        }
+
+        .analysis-content pre {
+            background-color: #f6f8fa;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #d2d2d7;
+            margin: 1rem 0;
+        }
+
+        .analysis-content pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #24292e;
+        }
+
+        .analysis-content hr {
+            border: none;
+            height: 1px;
+            background-color: #d2d2d7;
+            margin: 2rem 0;
+        }
+
+        /* 特殊emoji样式 */
+        .analysis-content p:first-child::first-letter {
+            font-size: 2rem;
+            float: left;
+            margin-right: 0.5rem;
+            line-height: 1;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #007aff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #1d1d1f;
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .loading-subtext {
+            color: #86868b;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>{{ topic }}</h1>
+            <p class="topic-info">创建时间: {{ topic.date_added|date:'M j, Y H:i' }}</p>
+        </header>
+
+        <main class="entries-section">
+            <div class="topic-actions">
+                <a href="{% url 'learning_logs:new_entry' topic.id %}" class="add-entry-btn">添加新条目</a>
+                <a href="{% url 'learning_logs:edit_topic' topic.id %}" class="edit-btn">编辑主题</a>
+                <a href="{% url 'learning_logs:delete_topic' topic.id %}" class="delete-btn">删除主题</a>
+            </div>
+
+            {% for entry in entries %}
+            <div class="entry-item">
+                <div class="entry-header">
+                    <div class="entry-actions">
+                        <a href="{% url 'learning_logs:edit_entry' entry.id %}" class="action-link">编辑</a>
+                        <a href="{% url 'learning_logs:delete_entry' entry.id %}" class="action-link delete">删除</a>
+                        <form method="post" action="{% url 'learning_logs:analyze_entry' entry.id %}" style="display: inline;" onsubmit="showLoading(this)">
+                            {% csrf_token %}
+                            <button type="submit" class="action-link ai-btn" id="analyze-btn-{{ entry.id }}">AI分析</button>
+                        </form>
+                        <form method="post" action="{% url 'learning_logs:optimize_entry' entry.id %}" style="display: inline;" onsubmit="showLoading(this)">
+                            {% csrf_token %}
+                            <button type="submit" class="action-link optimize-btn" id="optimize-btn-{{ entry.id }}">AI优化</button>
+                        </form>
+                    </div>
+                </div>
+                <p class="entry-text">{{ entry.text|linebreaks }}</p>
+                <p class="entry-date">{{ entry.date_added|date:'M j, Y H:i' }}</p>
+
+                {% if entry.ai_analysis %}
+                <div class="ai-analysis">
+                    <h4>🤖 AI学习导师的分析报告</h4>
+                    <div class="analysis-content">{{ entry.ai_analysis|markdownify }}</div>
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p class="no-entries">这个主题还没有条目。</p>
+            {% endfor %}
+
+            <a href="{% url 'learning_logs:topics' %}" class="back-link">← 返回主题列表</a>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">🤖 AI处理中...</div>
+            <div class="loading-subtext">正在调用DeepSeek AI，请稍候</div>
+        </div>
+    </div>
+
+</body>
+</html>

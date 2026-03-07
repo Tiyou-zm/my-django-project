@@ -20,4 +20,5 @@ from django.urls import include,path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),#包含博客应用路由
+    path('learning_logs/', include('learning_logs.urls')),
 ]
