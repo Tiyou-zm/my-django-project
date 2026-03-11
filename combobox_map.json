@@ -1,0 +1,102 @@
+{
+  "/training": [
+    {
+      "index": 0,
+      "text": "LSTM \\u957f\\u77ed\\u671f\\u8bb0\\u5fc6\\u7f51\\u7edc\\nGRU \\u95e8\\u63a7\\u5faa\\u73af\\u5355\\u5143\\nTransformer \\u53d8\\u6362\\u5668\\nCNN \\u5377\\u79ef\\u795e\\u7ecf\\u7f51\\u7edc",
+      "box": {
+        "x": 48,
+        "y": 352,
+        "width": 400,
+        "height": 40
+      },
+      "options": []
+    },
+    {
+      "index": 1,
+      "text": "\\u5386\\u53f2\\u80fd\\u8017\\u6570\\u636e (2023-2026)\\n\\u673a\\u7ec4\\u8fd0\\u884c\\u6570\\u636e\\n\\u7efc\\u5408\\u6570\\u636e\\u96c6",
+      "box": {
+        "x": 48,
+        "y": 694,
+        "width": 400,
+        "height": 40
+      },
+      "options": []
+    }
+  ],
+  "/optimization": [
+    {
+      "index": 0,
+      "text": "\\u672a\\u676524\\u5c0f\\u65f6\\n\\u672a\\u67657\\u5929\\n\\u672a\\u676530\\u5929",
+      "box": {
+        "x": 1131,
+        "y": 182,
+        "width": 137,
+        "height": 40
+      },
+      "options": []
+    }
+  ],
+  "/data": [
+    {
+      "index": 0,
+      "text": "\\u5168\\u90e8\\u6570\\u636e\\u7c7b\\u578b\\n\\u80fd\\u8017\\u6570\\u636e\\n\\u673a\\u7ec4\\u6570\\u636e\\n\\u4f20\\u611f\\u5668\\u6570\\u636e\\n\\u6c14\\u8c61\\u6570\\u636e",
+      "box": {
+        "x": 1104,
+        "y": 1032,
+        "width": 150,
+        "height": 42
+      },
+      "options": []
+    }
+  ],
+  "/analysis": [
+    {
+      "index": 0,
+      "text": "\\u6700\\u8fd124\\u5c0f\\u65f6\\n\\u6700\\u8fd17\\u5929\\n\\u6700\\u8fd130\\u5929\\n\\u6700\\u8fd13\\u4e2a\\u6708\\n\\u6700\\u8fd11\\u5e74",
+      "box": {
+        "x": 1147,
+        "y": 182,
+        "width": 137,
+        "height": 40
+      },
+      "options": []
+    }
+  ],
+  "/saving": [
+    {
+      "index": 0,
+      "text": "\\u5e74\\u521d\\u81f3\\u4eca\\n\\u672c\\u5b63\\u5ea6\\n\\u672c\\u6708\\n\\u5168\\u90e8\\u65f6\\u95f4",
+      "box": {
+        "x": 1298,
+        "y": 182,
+        "width": 118,
+        "height": 40
+      },
+      "options": []
+    }
+  ],
+  "/maintenance": [
+    {
+      "index": 0,
+      "text": "\\u5168\\u90e8\\u72b6\\u6001\\n\\u5f85\\u5904\\u7406\\n\\u8fdb\\u884c\\u4e2d\\n\\u5df2\\u5b8c\\u6210",
+      "box": {
+        "x": 1044,
+        "y": 1202,
+        "width": 102,
+        "height": 38
+      },
+      "options": []
+    },
+    {
+      "index": 1,
+      "text": "\\u5168\\u90e8\\u4f18\\u5148\\u7ea7\\n\\u9ad8\\n\\u4e2d\\n\\u4f4e",
+      "box": {
+        "x": 1158,
+        "y": 1202,
+        "width": 116,
+        "height": 38
+      },
+      "options": []
+    }
+  ]
+}
